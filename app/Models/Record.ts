@@ -19,6 +19,10 @@ export default class Record extends BaseModel {
   @column()
   public label: string
 
+  @column()
+  public user_Id: number // Foreign key column
+
+
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
 

@@ -11,7 +11,7 @@ export default class extends BaseSchema {
       table.integer('hutang').notNullable()
       table.string('label').nullable()
 
-      table.string('user_id').references('users.id').onDelete('CASCADE')
+      table.string('user_id').references('id').inTable('users').onDelete('CASCADE')
 
 
       /**
