@@ -8,7 +8,6 @@
 | preferred, since they keep this file clean.
 |
 */
-import 'dotenv/config'
 
 import Server from '@ioc:Adonis/Core/Server'
 
@@ -42,4 +41,5 @@ Server.middleware.register([
 |
 */
 Server.middleware.registerNamed({
+  auth: () => import('App/Middleware/Auth')
 })
