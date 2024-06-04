@@ -24,8 +24,8 @@ Route.get('/', async ({auth}) => {
   await auth.use('api').authenticate()
   if(auth.use('api').isLoggedIn){
     return {hello: auth.use('api').user}
-  } 
-})  
+  }
+})
 
 Route.post('/login', 'AuthController.login')
 Route.post('/register', 'AuthController.register')
@@ -39,7 +39,7 @@ Route.group(() => {
   Route.delete('users/:id', 'UsersController.destroy')
   Route.post('records', 'RecordsController.store')
   Route.get('records', 'RecordsController.index')
-  Route.get('records/:user_id', 'RecordsController.show')
-  Route.put('records/:user_id', 'RecordsController.update')
-  Route.delete('records/:user_id', 'RecordsController.destroy')
-})
+  Route.get('records/:id', 'RecordsController.show')
+  Route.put('records/:id', 'RecordsController.update')
+  Route.delete('records/:id', 'RecordsController.destroy')
+}).middleware('auth:api')

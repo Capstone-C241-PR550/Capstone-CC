@@ -20,7 +20,7 @@ export default class Record extends BaseModel {
   public label: string
 
   @column()
-  public user_Id: number // Foreign key column
+  public userId: string // Foreign key column
 
 
   @belongsTo(() => User)
