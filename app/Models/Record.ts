@@ -8,13 +8,13 @@ export default class Record extends BaseModel {
   public id: number
 
   @column()
-  public saldo: number
+  public penghasilan_bulanan: number
 
   @column()
-  public investasi: number
+  public pengeluaran_bulanan: number
 
   @column()
-  public hutang: number
+  public tabungan_bulanan: number
 
   @column()
   public label: string

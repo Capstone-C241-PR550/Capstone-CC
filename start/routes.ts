@@ -32,11 +32,13 @@ Route.post('/register', 'AuthController.register')
 Route.post('/logout', 'AuthController.logout')
 
 Route.group(() => {
-  Route.post('users', 'UsersController.store')
-  Route.get('users', 'UsersController.index')
-  Route.get('users/:id', 'UsersController.show')
-  Route.put('users/:id', 'UsersController.update')
-  Route.delete('users/:id', 'UsersController.destroy')
+  // Route.post('users', 'UsersController.store')
+  // Route.get('users', 'UsersController.index')
+  // Route.get('users/:id', 'UsersController.show')
+  // Route.put('users/:id', 'UsersController.update')
+  // Route.delete('users/:id', 'UsersController.destroy')
+
+  // Record Endpoint
   Route.post('records', 'RecordsController.store')
   Route.get('records', 'RecordsController.index')
   Route.get('records/:id', 'RecordsController.show')
