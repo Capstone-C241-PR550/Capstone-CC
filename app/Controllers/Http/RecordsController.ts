@@ -1,15 +1,29 @@
 import Record from 'App/Models/Record'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import Env from '@ioc:Adonis/Core/Env'
+
+const axios = require('axios')
+
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class RecordsController {
     public async store({ auth, request, response }: HttpContextContract) {
-    const {saldo, investasi, hutang} = request.body()
+    const {penghasilan_bulanan, pengeluaran_bulanan, tabungan_bulanan} = request.body()
+
+
     try {
+        const predict = await this.predict({
+          penghasilan_bulanan: penghasilan_bulanan,
+          pengeluaran_bulanan: pengeluaran_bulanan,
+          tabungan_bulanan: tabungan_bulanan,
+        })
+
+        console.log(predict.predicted_label)
+
         const records = await Record.create({
-          saldo: saldo,
-          investasi: investasi,
-          hutang: hutang,
+          penghasilan_bulanan: penghasilan_bulanan,
+          pengeluaran_bulanan: pengeluaran_bulanan,
+          tabungan_bulanan: tabungan_bulanan,
+          label: predict.predicted_label,
           userId: auth.user.id
         })
         return response.status(200).json({ code: 200, status: 'success', data: records })
@@ -50,16 +64,24 @@ public async show({ auth ,params, response }: HttpContextContract) {
   }
 
 public async update({ params, request, response }: HttpContextContract) {
-    // const input = request.only(['saldo', 'investasi', 'hutang'])
-    const {saldo, investasi, hutang} = request.body()
+    // const input = request.only(['penghasilan_bulanan', 'pengeluaran_bulanan', 'tabungan_bulanan'])
+    const {penghasilan_bulanan, pengeluaran_bulanan, tabungan_bulanan} = request.body()
     const id = params.id
     try {
         // const records = await Record.query().where('user_id',auth.user.id).where('id',id)
         const records = await Record.findOrFail(id)
+
+        const predict = await this.predict({
+          penghasilan_bulanan: penghasilan_bulanan,
+          pengeluaran_bulanan: pengeluaran_bulanan,
+          tabungan_bulanan: tabungan_bulanan,
+        })
+
         await records.merge({
-          saldo:saldo,
-          investasi:investasi,
-          hutang:hutang
+          penghasilan_bulanan:penghasilan_bulanan,
+          pengeluaran_bulanan:pengeluaran_bulanan,
+          tabungan_bulanan:tabungan_bulanan,
+          label: predict.predicted_label
         }).save()
         return response.status(200).json({ code: 200, status: 'success', data: records })
     } catch (err) {
@@ -77,4 +99,14 @@ public async destroy({ params, response }: HttpContextContract) {
     }
 }
 
+
+private async predict(data) {
+  const url = Env.get('ML_URL')
+
+
+  const predict = await axios.post(url,data)
+
+  return predict.data
+
+  }
 }
