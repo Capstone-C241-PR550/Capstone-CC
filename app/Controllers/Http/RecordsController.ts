@@ -17,8 +17,6 @@ export default class RecordsController {
           tabungan_bulanan: tabungan_bulanan,
         })
 
-        console.log(predict.predicted_label)
-
         const records = await Record.create({
           penghasilan_bulanan: penghasilan_bulanan,
           pengeluaran_bulanan: pengeluaran_bulanan,
